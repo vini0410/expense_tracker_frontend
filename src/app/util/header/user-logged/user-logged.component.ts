@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
   styleUrl: './user-logged.component.scss'
 })
 export class UserLoggedComponent {
-  constructor(private route:Router) { }
-
-  navitateToLogin() {
-    this.route.navigate(['login']);
-  }
+    constructor(private route:Router) { }
+  
+    navitateToLogin() {
+      this.route.navigate(['login']);
+    }
 
 }
