@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @use "@angular/material" as mat;
+@import "tailwindcss";
 
 $primary: mat.$violet-palette;
 $accent: mat.$orange-palette;
-
 
 html {
   height: 100%;
