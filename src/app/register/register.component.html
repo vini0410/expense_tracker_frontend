@@ -1,1 +1,34 @@
-<p>register works!</p>
+<div
+  class="register min-w-full min-h-full flex flex-auto justify-center content-center"
+>
+  <div class="register-form min-w-1/3">
+    <mat-card appearance="raised">
+      <mat-card-header class="mb-3">
+        <mat-card-title>Register</mat-card-title>
+        <mat-card-subtitle
+          >We are very happy to see you becoming a member of this
+          family</mat-card-subtitle
+        >
+      </mat-card-header>
+      <mat-card-content>
+        <form class="flex flex-col">
+          <mat-form-field class="w-3/4">
+            <mat-label>Name</mat-label>
+            <input matInput type="text" />
+          </mat-form-field>
+          <mat-form-field class="w-3/4">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" />
+          </mat-form-field>
+          <mat-form-field class="w-3/4">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" />
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-flat-button (click)="register()">Create Account</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
