@@ -42,6 +42,8 @@ export class ExpenseControlService {
   }
 
   addUsuario(usuario: any): Observable<any> {
+    let newId = this.usuarios.length + 1;
+    usuario.id = newId;
     this.usuarios.push(usuario);
     return of(usuario);
   }

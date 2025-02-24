@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -8,6 +8,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
+import { ExpenseControlService } from '../service/expense-control.service';
 
 @Component({
   selector: 'app-register',
@@ -21,6 +22,7 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
+  private service = inject(ExpenseControlService);
   constructor() {}
 
   form = new FormGroup({
@@ -35,6 +37,11 @@ export class RegisterComponent {
   register() {
     let data = this.form.value;
     console.log(data);
+    let valid = this.service.addUsuario(data).subscribe({
+      next: (resp) => {
+        console.log('Usuário cadastrado,', resp);
+      },
+    });
   }
 
   get nameInvalid() {
