@@ -1,7 +1,7 @@
 <div
   class="register min-w-full min-h-full flex flex-auto justify-center content-center"
 >
-  <!-- <div class="register-form min-w-1/3">
+  <div class="register-form min-w-1/3">
     <mat-card appearance="raised">
       <mat-card-header class="mb-3">
         <mat-card-title>Register</mat-card-title>
@@ -11,29 +11,41 @@
         >
       </mat-card-header>
       <mat-card-content>
-        <form class="flex flex-col">
+        <form class="flex flex-col" [formGroup]="form">
           <mat-form-field class="w-3/4">
             <mat-label>Name</mat-label>
-            <input matInput type="text" />
+            <input matInput type="text" formControlName="name" />
+            @if (nameInvalid) {
+              <mat-error mb-3>Name is required</mat-error>
+            }
           </mat-form-field>
           <mat-form-field class="w-3/4">
             <mat-label>Email</mat-label>
-            <input matInput type="email" />
+            <input matInput type="email" formControlName="email" />
+            @if (emailInvalid) {
+              <mat-error mb-3>Email is required</mat-error>
+            }
           </mat-form-field>
           <mat-form-field class="w-3/4">
             <mat-label>Password</mat-label>
-            <input matInput type="password" />
+            <input matInput type="password" formControlName="password" />
+            @if (passwordInvalid) {
+              <mat-error mb-3>Password is required</mat-error>
+            }
           </mat-form-field>
         </form>
       </mat-card-content>
       <mat-card-actions align="end">
-        <button mat-flat-button (click)="register()">Create Account</button>
+        <button
+          mat-flat-button
+          [disabled]="buttonDisabled"
+          (click)="register()"
+        >
+          Create Account
+        </button>
       </mat-card-actions>
     </mat-card>
-  </div> -->
+  </div>
 
-  <form action="" method="post">
-
-    
-  </form>
+  <form action="" method="post"></form>
 </div>
