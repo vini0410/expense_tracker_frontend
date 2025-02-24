@@ -10,6 +10,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
+import { ExpenseControlService } from '../service/expense-control.service';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  private service = inject(ExpenseControlService);
   constructor() {}
   private destroyRef = inject(DestroyRef);
 
@@ -36,6 +38,14 @@ export class LoginComponent {
   login() {
     let data = this.form.value;
     console.log(data);
+    let valid = this.service.getUsuarioByEmail(data.email!).subscribe({
+      next: (resp) => {
+        console.log('Usuário válido,', resp);
+      },
+      error: (err) => {
+        console.log('Usuário inválido', err);
+      },
+    });
   }
 
   get emailInvalid() {
