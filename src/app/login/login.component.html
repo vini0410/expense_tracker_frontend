@@ -7,15 +7,26 @@
         <mat-card-title>Login</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <form class="flex flex-col">
-          <mat-form-field class="w-3/4">
-            <mat-label>Email</mat-label>
-            <input matInput type="email" />
-          </mat-form-field>
-          <mat-form-field class="w-3/4">
-            <mat-label>Password</mat-label>
-            <input matInput type="password" />
-          </mat-form-field>
+        <form class="flex flex-col" [formGroup]="form">
+          <!-- (ngSubmit)="login()" formGroupName="form" -->
+          <div class="mb-3">
+            <mat-form-field class="w-3/4">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" formControlName="email" />
+              @if (emailInvalid) {
+                <mat-error mb-3>Email is required</mat-error>
+              }
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="w-3/4">
+              <mat-label>Password</mat-label>
+              <input matInput type="password" formControlName="password" />
+              @if (passwordInvalid) {
+                <mat-error mb-3>Password is required</mat-error>
+              }
+            </mat-form-field>
+          </div>
         </form>
       </mat-card-content>
       <mat-card-actions align="end">
