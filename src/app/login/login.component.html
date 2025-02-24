@@ -30,7 +30,9 @@
         </form>
       </mat-card-content>
       <mat-card-actions align="end">
-        <button mat-flat-button (click)="login()">Login</button>
+        <button mat-flat-button [disabled]="buttonDisabled" (click)="login()">
+          Login
+        </button>
       </mat-card-actions>
     </mat-card>
   </div>

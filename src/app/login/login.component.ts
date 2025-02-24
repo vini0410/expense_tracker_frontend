@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { debounceTime, of } from 'rxjs';
+import { Component, DestroyRef, inject } from '@angular/core';
 import {
   ReactiveFormsModule,
   FormControl,
   FormGroup,
   Validators,
+  AbstractControl,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -22,10 +24,13 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class LoginComponent {
   constructor() {}
+  private destroyRef = inject(DestroyRef);
 
   form = new FormGroup({
-    email: new FormControl(null, [Validators.required, Validators.email]),
-    password: new FormControl(null, [Validators.required]),
+    email: new FormControl(null, {
+      validators: [Validators.required, Validators.email], // asyncValidators: [emailIsUnique],
+    }),
+    password: new FormControl(null, [Validators.required]), // mustContainQuestionMark
   });
 
   login() {
@@ -48,4 +53,43 @@ export class LoginComponent {
       this.form.controls.password.invalid
     );
   }
+
+  get buttonDisabled() {
+    if (this.form.invalid || this.emailInvalid || this.passwordInvalid) {
+      return true;
+    }
+    return false;
+  }
+
+  ngOnInit() {
+    // const savedForm = window.localStorage.getItem('loginForm');
+    // if (savedForm) {
+    //   const formValue = JSON.parse(savedForm);
+    //   this.form.patchValue({
+    //     email: formValue.email,
+    //   });
+    // }
+    // const subscription = this.form.valueChanges
+    //   .pipe(debounceTime(1000))
+    //   .subscribe({
+    //     next: (value) => {
+    //       window.localStorage.setItem('loginForm', JSON.stringify(value));
+    //     },
+    //   });
+    // this.destroyRef.onDestroy(() => subscription);
+  }
+}
+
+function mustContainQuestionMark(input: AbstractControl) {
+  if (input.value.includes('?')) {
+    return null;
+  }
+  return { doesNotContainQuestionMark: true };
+}
+
+function emailIsUnique(input: AbstractControl) {
+  if (input.value === 'teste@teste.com') {
+    return of(null);
+  }
+  return of({ emailIsNotUnique: true });
 }
