@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, DestroyRef } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -23,6 +23,7 @@ import { ExpenseControlService } from '../service/expense-control.service';
 })
 export class RegisterComponent {
   private service = inject(ExpenseControlService);
+  private destroyRef = inject(DestroyRef);
   constructor() {}
 
   form = new FormGroup({
@@ -37,11 +38,13 @@ export class RegisterComponent {
   register() {
     let data = this.form.value;
     console.log(data);
-    let valid = this.service.addUsuario(data).subscribe({
+    let subs = this.service.addUser(data).subscribe({
       next: (resp) => {
         console.log('Usuário cadastrado,', resp);
       },
     });
+
+    this.destroyRef.onDestroy(() => subs.unsubscribe());
   }
 
   get nameInvalid() {

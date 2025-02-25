@@ -12,6 +12,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { ExpenseControlService } from '../service/expense-control.service';
 
+import { Router } from '@angular/router';
+import { AuthService } from '../service/auth.service';
+
 @Component({
   selector: 'app-login',
   imports: [
@@ -25,7 +28,8 @@ import { ExpenseControlService } from '../service/expense-control.service';
 })
 export class LoginComponent {
   private service = inject(ExpenseControlService);
-  constructor() {}
+  private authService = inject(AuthService);
+  private router = inject(Router);
   private destroyRef = inject(DestroyRef);
 
   form = new FormGroup({
@@ -38,14 +42,18 @@ export class LoginComponent {
   login() {
     let data = this.form.value;
     console.log(data);
-    let valid = this.service.getUsuarioByEmail(data.email!).subscribe({
+    let subs = this.service.getUserByEmail(data.email!).subscribe({
       next: (resp) => {
         console.log('Usuário válido,', resp);
+        this.authService.login(resp.id);
+        this.router.navigate(['/homepage']);
       },
       error: (err) => {
         console.log('Usuário inválido', err);
       },
     });
+
+    this.destroyRef.onDestroy(() => subs.unsubscribe());
   }
 
   get emailInvalid() {

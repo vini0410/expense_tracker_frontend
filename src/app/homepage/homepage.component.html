@@ -1,2 +1,15 @@
 <p>homepage works!</p>
-
+@if (user$) {
+  <div class="teste">
+    <ul>
+      <li>{{ user!.id }}</li>
+      <li>{{ user!.name }}</li>
+      <li>{{ user!.email }}</li>
+      <li>{{ user!.password }}</li>
+    </ul>
+  </div>
+} @else {
+  <div class="erro">
+    <p>nenhum usuario logado</p>
+  </div>
+}

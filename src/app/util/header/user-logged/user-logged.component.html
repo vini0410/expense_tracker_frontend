@@ -1,1 +1,7 @@
-<button mat-flat-button (click)="navitateToLogin()">Login</button>
+@if (isLogged) {
+  <div class="logado">
+    <p>Logado</p>
+  </div>
+} @else {
+  <button mat-flat-button (click)="navitateToLogin()">Login</button>
+}
