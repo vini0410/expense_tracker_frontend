@@ -14,18 +14,18 @@ export class UserLoggedComponent {
   private route = inject(Router);
   private authService = inject(AuthService);
   private destroyRef = inject(DestroyRef);
+  private subscription = new Subscription();
   isLogged: boolean | null = null;
-  private subs = new Subscription();
+
 
   ngOnInit() {
-    let logged = this.authService.logged$.subscribe((logged) => {
+    let subs = this.authService.logged$.subscribe((logged) => {
       this.isLogged = logged;
     });
 
-    this.subs.add(logged)
+    this.subscription.add(subs)
 
-    this.destroyRef.onDestroy(() => logged);
-    this.destroyRef.onDestroy(() => this.subs);
+    this.destroyRef.onDestroy(() => this.subscription);
   }
 
   navitateToLogin() {

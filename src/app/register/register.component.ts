@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { ExpenseControlService } from '../service/expense-control.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -24,7 +25,7 @@ import { ExpenseControlService } from '../service/expense-control.service';
 export class RegisterComponent {
   private service = inject(ExpenseControlService);
   private destroyRef = inject(DestroyRef);
-  constructor() {}
+  private subscription = new Subscription();
 
   form = new FormGroup({
     name: new FormControl(null, [Validators.required, Validators.minLength(2)]),
@@ -44,7 +45,9 @@ export class RegisterComponent {
       },
     });
 
-    this.destroyRef.onDestroy(() => subs.unsubscribe());
+    this.subscription.add(subs)
+
+    this.destroyRef.onDestroy(() => this.subscription);
   }
 
   get nameInvalid() {

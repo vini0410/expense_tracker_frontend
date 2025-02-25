@@ -1,4 +1,4 @@
-import { debounceTime, of } from 'rxjs';
+import { debounceTime, of, Subscription } from 'rxjs';
 import { Component, DestroyRef, inject } from '@angular/core';
 import {
   ReactiveFormsModule,
@@ -31,6 +31,7 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
+  private subscription = new Subscription();
 
   form = new FormGroup({
     email: new FormControl(null, {
@@ -53,7 +54,9 @@ export class LoginComponent {
       },
     });
 
-    this.destroyRef.onDestroy(() => subs.unsubscribe());
+    this.subscription.add(subs)
+
+    this.destroyRef.onDestroy(() => this.subscription);
   }
 
   get emailInvalid() {
