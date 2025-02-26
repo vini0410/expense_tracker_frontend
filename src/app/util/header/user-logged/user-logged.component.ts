@@ -17,15 +17,19 @@ export class UserLoggedComponent {
   private subscription = new Subscription();
   isLogged: boolean | null = null;
 
-
   ngOnInit() {
     let subs = this.authService.logged$.subscribe((logged) => {
       this.isLogged = logged;
     });
 
-    this.subscription.add(subs)
+    this.subscription.add(subs);
 
     this.destroyRef.onDestroy(() => this.subscription);
+  }
+
+  logout() {
+    this.authService.logout();
+    this.route.navigate(['']);
   }
 
   navitateToLogin() {

@@ -6,7 +6,7 @@ import { ExpenseControlService } from './expense-control.service';
   providedIn: 'root',
 })
 export class AuthService {
-  private service = inject(ExpenseControlService)
+  private service = inject(ExpenseControlService);
   private userId = new BehaviorSubject<number | null>(null);
   userId$ = this.userId.asObservable();
   private logged = new BehaviorSubject<boolean>(false);
@@ -26,21 +26,21 @@ export class AuthService {
       const userId = JSON.parse(storedUser);
       this.userId.next(userId);
       this.logged.next(true);
-      this.fetchUserData(userId).subscribe()
+      this.fetchUserData(userId).subscribe();
     }
   }
 
   login(id: number) {
     this.userId.next(id);
     this.logged.next(true);
-    this.fetchUserData(id).subscribe()
+    this.fetchUserData(id).subscribe();
     localStorage.setItem('user', JSON.stringify(id));
   }
 
   logout() {
     this.userId.next(null);
     this.logged.next(false);
-    this.user.next(null)
+    this.user.next(null);
     localStorage.removeItem('user');
   }
 
@@ -49,11 +49,18 @@ export class AuthService {
   }
 
   // Novo método para buscar dados do usuário
-  private fetchUserData(userId: number): Observable<{ id: number; name: string; email: string, password: string } | null> {
+  private fetchUserData(
+    userId: number,
+  ): Observable<{
+    id: number;
+    name: string;
+    email: string;
+    password: string;
+  } | null> {
     return this.service.getUserById(userId).pipe(
       tap((user) => {
         this.user.next(user);
-      })
+      }),
     );
   }
 }

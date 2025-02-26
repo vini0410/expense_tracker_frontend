@@ -1,6 +1,6 @@
 @if (isLogged) {
   <div class="logado">
-    <p>Logado</p>
+    <p class="cursor-pointer hover:bg-purple-700" (click)="logout()" >Logado</p>
   </div>
 } @else {
   <button mat-flat-button (click)="navitateToLogin()">Login</button>
