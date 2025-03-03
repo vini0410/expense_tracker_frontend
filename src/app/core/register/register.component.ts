@@ -8,7 +8,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
-import { ExpenseControlService } from '../service/expense-control.service';
+import { ExpenseControlService } from '../../service/expense-control.service';
 import { Subscription } from 'rxjs';
 
 @Component({

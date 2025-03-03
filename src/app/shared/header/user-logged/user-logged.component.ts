@@ -1,4 +1,4 @@
-import { Component, inject, DestroyRef } from '@angular/core';
+import { Component, inject, DestroyRef, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../service/auth.service';
@@ -13,19 +13,19 @@ import { Subscription } from 'rxjs';
 export class UserLoggedComponent {
   private route = inject(Router);
   private authService = inject(AuthService);
-  private destroyRef = inject(DestroyRef);
-  private subscription = new Subscription();
-  isLogged: boolean | null = null;
+  // private destroyRef = inject(DestroyRef);
+  // private subscription = new Subscription();
+  isLogged = input<boolean | null>(null);
 
-  ngOnInit() {
-    let subs = this.authService.logged$.subscribe((logged) => {
-      this.isLogged = logged;
-    });
+  // ngOnInit() {
+  //   let subs = this.authService.logged$.subscribe((logged) => {
+  //     this.isLogged = logged;
+  //   });
 
-    this.subscription.add(subs);
+  //   this.subscription.add(subs);
 
-    this.destroyRef.onDestroy(() => this.subscription);
-  }
+  //   this.destroyRef.onDestroy(() => this.subscription);
+  // }
 
   logout() {
     this.authService.logout();

@@ -19,9 +19,12 @@
       <mat-card-subtitle>Suas despesas:</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <app-expense-table [id]="user?.id"></app-expense-table>
+      <app-expense-table
+        [expenses]="expenses()"
+        (expenseEdited)="onEditExpenses($event)"
+      />
       <mat-card-actions align="end">
-        <button mat-flat-button>+</button>
+        <button mat-flat-button (click)="onAdd()">+</button>
       </mat-card-actions>
     </mat-card-content>
   </mat-card>

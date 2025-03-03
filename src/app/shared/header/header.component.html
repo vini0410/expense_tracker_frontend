@@ -1,0 +1,22 @@
+<div class="header flex justify-between items-center min-h-15 bg-stone-900">
+  <div class="left flex">
+    <div class="logo mx-3">
+      <!-- <a href="https://www.flaticon.com/br/icones-gratis/gerenciamento-de-dinheiro" title="gerenciamento de dinheiro ícones">Gerenciamento de dinheiro ícones criados por Us and Up - Flaticon</a> -->
+      <img src="assets/money-management.png" class="max-h-12" alt="" />
+    </div>
+    <div class="content m-3">
+      <a href="" class="m-3">Welcome</a>
+      @if (isLogged()) {
+      <a href="homepage" class="m-3">Home</a>
+      }
+    </div>
+  </div>
+  <div class="content m-3">
+    <p class="text-lg">Expense Manager</p>
+  </div>
+  <div class="right">
+    <div class="content m-3">
+      <app-user-logged [isLogged]="isLogged()" ></app-user-logged>
+    </div>
+  </div>
+</div>

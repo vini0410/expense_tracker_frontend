@@ -1,0 +1,39 @@
+@if (data) {
+<h1 mat-dialog-title>Update Your Expense</h1>
+} @else {
+<h1 mat-dialog-title>Add Your New Expense</h1>
+}
+<mat-dialog-content>
+  <form class="flex flex-col" [formGroup]="form">
+    <div>
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description" />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>amount</mat-label>
+        <input matInput type="number" formControlName="amount" />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>category</mat-label>
+        <mat-select formControlName="category">
+          @for (item of categories; track $index) {
+          <mat-option [value]="item">{{ item }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onCancelClick()">Cancel</button>
+  @if (data) {
+  <button mat-flat-button (click)="onSave()">Edit</button>
+  } @else {
+  <button mat-flat-button (click)="onSave()">Add</button>
+  }
+</mat-dialog-actions>
