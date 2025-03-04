@@ -10,6 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { ExpenseControlService } from '../../service/expense-control.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -24,6 +25,7 @@ import { Subscription } from 'rxjs';
 })
 export class RegisterComponent {
   private service = inject(ExpenseControlService);
+  private router = inject(Router);
   private destroyRef = inject(DestroyRef);
   private subscription = new Subscription();
 
@@ -42,10 +44,14 @@ export class RegisterComponent {
     let subs = this.service.addUser(data).subscribe({
       next: (resp) => {
         console.log('Usuário cadastrado,', resp);
+        let sub = this.service.getUsers().subscribe((users) => {
+          console.log(users);
+        });
+        this.router.navigate(['login']);
       },
     });
 
-    this.subscription.add(subs)
+    this.subscription.add(subs);
 
     this.destroyRef.onDestroy(() => this.subscription);
   }
