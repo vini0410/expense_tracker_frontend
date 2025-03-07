@@ -1,22 +1,19 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { ExpenseControlService } from './expense-control.service';
+import { User } from '../models/user.model';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private service = inject(ExpenseControlService);
-  private userId = new BehaviorSubject<number | null>(null);
+  private service = inject(UserService);
+  private userId = new BehaviorSubject<string | null>(null);
   userId$ = this.userId.asObservable();
   private logged = new BehaviorSubject<boolean>(false);
   logged$ = this.logged.asObservable();
-  private user = new BehaviorSubject<{
-    id: number;
-    name: string;
-    email: string;
-    password: string;
-  } | null>(null);
+  private user = new BehaviorSubject<User | null>(null);
   user$ = this.user.asObservable();
 
   constructor() {
@@ -30,7 +27,7 @@ export class AuthService {
     }
   }
 
-  login(id: number) {
+  login(id: string) {
     this.userId.next(id);
     this.logged.next(true);
     this.fetchUserData(id).subscribe();
@@ -49,18 +46,11 @@ export class AuthService {
   }
 
   // Novo método para buscar dados do usuário
-  private fetchUserData(
-    userId: number,
-  ): Observable<{
-    id: number;
-    name: string;
-    email: string;
-    password: string;
-  } | null> {
+  private fetchUserData(userId: string): Observable<User | null> {
     return this.service.getUserById(userId).pipe(
       tap((user) => {
         this.user.next(user);
-      }),
+      })
     );
   }
 }

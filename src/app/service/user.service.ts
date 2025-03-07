@@ -7,10 +7,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  // private http = inject(HttpClient);
+  private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/expense-tracker';
-
-  constructor(private http: HttpClient) {}
 
   addUser(user: User): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/users`, user);
@@ -29,7 +27,7 @@ export class UserService {
   }
 
   getUserByEmail(email: string): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/users`, {
+    return this.http.get<User>(`${this.apiUrl}/users/email`, {
       params: { email: email },
     });
   }
