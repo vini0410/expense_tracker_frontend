@@ -8,9 +8,10 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
-import { ExpenseControlService } from '../../service/expense-control.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { UserService } from '../../service/user.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-register',
@@ -24,7 +25,7 @@ import { Router } from '@angular/router';
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
-  private service = inject(ExpenseControlService);
+  private service = inject(UserService);
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
   private subscription = new Subscription();
@@ -41,18 +42,24 @@ export class RegisterComponent {
   register() {
     let data = this.form.value;
     console.log(data);
-    let subs = this.service.addUser(data).subscribe({
-      next: (resp) => {
-        console.log('Usuário cadastrado,', resp);
-        let sub = this.service.getUsers().subscribe((users) => {
-          console.log(users);
-        });
-        this.router.navigate(['login']);
-      },
-    });
+    if (!this.form.invalid && data.name && data.email && data.password) {
+      let user: User = {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      };
+      let subs = this.service.addUser(user).subscribe({
+        next: (resp) => {
+          console.log('Usuário cadastrado,', resp);
+          this.router.navigate(['login']);
+        },
+        error: (err) => {
+          console.log('Usuário inválido', err);
+        },
+      });
 
-    this.subscription.add(subs);
-
+      this.subscription.add(subs);
+    }
     this.destroyRef.onDestroy(() => this.subscription);
   }
 

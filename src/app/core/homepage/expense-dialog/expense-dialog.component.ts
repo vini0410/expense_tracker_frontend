@@ -37,7 +37,6 @@ export class ExpenseDialogComponent {
   categories: string[] = ['food', 'transport', 'health', 'others'];
 
   form = new FormGroup({
-    id: new FormControl(null),
     description: new FormControl(null, [Validators.required]), // asyncValidators: [emailIsUnique],
     amount: new FormControl(null, [Validators.required]), // mustContainQuestionMark
     category: new FormControl(null, [Validators.required]),
@@ -56,9 +55,6 @@ export class ExpenseDialogComponent {
 
   onSave() {
     let expense = this.form.value;
-    if (this.data) {
-      expense.id = this.data.id;
-    }
     console.log('expense:', expense);
     this.dialogRef.close(expense);
   }

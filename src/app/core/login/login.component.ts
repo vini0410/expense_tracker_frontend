@@ -10,10 +10,11 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
-import { ExpenseControlService } from '../../service/expense-control.service';
 
 import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
+import { UserService } from '../../service/user.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +28,7 @@ import { AuthService } from '../../service/auth.service';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  private service = inject(ExpenseControlService);
+  private service = inject(UserService);
   private authService = inject(AuthService);
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
@@ -43,18 +44,29 @@ export class LoginComponent {
   login() {
     let data = this.form.value;
     console.log(data);
-    let subs = this.service.getUserByEmail(data.email!).subscribe({
-      next: (resp) => {
-        console.log('Usuário válido,', resp);
-        this.authService.login(resp.id);
-        this.router.navigate(['/homepage']);
-      },
-      error: (err) => {
-        console.log('Usuário inválido', err);
-      },
-    });
-
-    this.subscription.add(subs)
+    if (!this.form.invalid && data.email && data.password) {
+      let user: User = {
+        email: data.email,
+        password: data.password,
+      };
+      let subs = this.service.getUserByEmail(user.email).subscribe({
+        next: (resp) => {
+          console.log('Usuário recebido,', resp);
+          if (resp.password !== user.password) {
+            console.log('Senha inválida');
+            return;
+          } else {
+            console.log('Senha correta');
+            this.authService.login(resp.id!);
+            this.router.navigate(['/homepage']);
+          }
+        },
+        error: (err) => {
+          console.log('Usuário inválido', err);
+        },
+      });
+      this.subscription.add(subs);
+    }
 
     this.destroyRef.onDestroy(() => this.subscription);
   }
@@ -80,24 +92,6 @@ export class LoginComponent {
       return true;
     }
     return false;
-  }
-
-  ngOnInit() {
-    // const savedForm = window.localStorage.getItem('loginForm');
-    // if (savedForm) {
-    //   const formValue = JSON.parse(savedForm);
-    //   this.form.patchValue({
-    //     email: formValue.email,
-    //   });
-    // }
-    // const subscription = this.form.valueChanges
-    //   .pipe(debounceTime(1000))
-    //   .subscribe({
-    //     next: (value) => {
-    //       window.localStorage.setItem('loginForm', JSON.stringify(value));
-    //     },
-    //   });
-    // this.destroyRef.onDestroy(() => subscription);
   }
 }
 

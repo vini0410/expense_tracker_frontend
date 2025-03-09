@@ -1,12 +1,12 @@
 export class Expense {
-  id?: string;
+  id: string | null;
   description: string;
   amount: string;
   category: string;
   userId: string;
 
   constructor(
-    id: string,
+    id: string | null,
     description: string,
     amount: string,
     category: string,
