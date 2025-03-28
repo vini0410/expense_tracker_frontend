@@ -43,7 +43,7 @@ export class RegisterComponent {
     let data = this.form.value;
     console.log(data);
     if (!this.form.invalid && data.name && data.email && data.password) {
-      let user: User = {
+      let user: Partial<User> = {
         name: data.name,
         email: data.email,
         password: data.password,

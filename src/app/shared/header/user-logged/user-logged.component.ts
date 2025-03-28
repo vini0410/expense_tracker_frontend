@@ -13,19 +13,7 @@ import { Subscription } from 'rxjs';
 export class UserLoggedComponent {
   private route = inject(Router);
   private authService = inject(AuthService);
-  // private destroyRef = inject(DestroyRef);
-  // private subscription = new Subscription();
   isLogged = input<boolean | null>(null);
-
-  // ngOnInit() {
-  //   let subs = this.authService.logged$.subscribe((logged) => {
-  //     this.isLogged = logged;
-  //   });
-
-  //   this.subscription.add(subs);
-
-  //   this.destroyRef.onDestroy(() => this.subscription);
-  // }
 
   logout() {
     this.authService.logout();

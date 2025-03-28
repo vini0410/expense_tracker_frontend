@@ -16,7 +16,7 @@ export class AuthService {
   user$ = this.user.asObservable();
 
   constructor() {
-    // Verifica se o usuário já está logado ao iniciar o serviço
+    // Checks if the user is already logged in when starting the service
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       const userId = JSON.parse(storedUser);

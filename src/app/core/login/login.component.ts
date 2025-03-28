@@ -45,11 +45,11 @@ export class LoginComponent {
     let data = this.form.value;
     console.log(data);
     if (!this.form.invalid && data.email && data.password) {
-      let user: User = {
+      let user: Partial<User> = {
         email: data.email,
         password: data.password,
       };
-      let subs = this.service.getUserByEmail(user.email).subscribe({
+      let subs = this.service.getUserByEmail(user.email!).subscribe({
         next: (resp) => {
           console.log('Usuário recebido,', resp);
           if (resp.password !== user.password) {

@@ -10,7 +10,7 @@ export class UserService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:8080/expense-tracker';
 
-  addUser(user: User): Observable<User> {
+  addUser(user: Partial<User>): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/users`, user);
   }
 
